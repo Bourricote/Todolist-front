@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Item from './components/Item';
+import InputItem from './components/InputItem';
 import { useRadioGroup } from '@material-ui/core';
 
 class App extends Component {
@@ -80,24 +81,6 @@ class App extends Component {
     const{items} = this.state
     const{typingItem} = this.state
 
-    const InputItem = () => {
-      return (
-        <div>
-          <label htmlFor="input-item">Produit</label>
-          <input 
-            defaultValue={typingItem}
-            autoFocus
-            onChange={this.handleProductInputChange}
-            type="text" 
-            id="input-item" 
-          />
-          <button
-            onClick={this.handleButton}
-          >OK</button>
-        </div>
-      )
-    };
-
     return (
       <div className="App">
         <div>
@@ -107,17 +90,21 @@ class App extends Component {
             value={this.getCheckedRate()}
             color="secondary"
           />
-          <InputItem/>
+          <InputItem
+            typingItem={this.typingItem}
+            handleProductInputChange={this.handleProductInputChange}
+            handleButton={this.handleButton}
+          />
         </div>
         <ul>
           {
             items.map((item, i) => 
               <li key={i}>
                 <Item 
-                id={item.id}
-                isChecked={item.isChecked}
-                title={item.title}
-                handleCheckboxChange={this.handleCheckboxChange}
+                  id={item.id}
+                  isChecked={item.isChecked}
+                  title={item.title}
+                  handleCheckboxChange={this.handleCheckboxChange}
                 />
               </li>
             )
