@@ -2,20 +2,30 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import './App.css';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Item from './components/Item';
+
 import InputItem from './components/InputItem';
-import { useRadioGroup } from '@material-ui/core';
+import ItemList from './components/ItemList';
 
 class App extends Component {
   
   constructor(props) {
     super(props)
     this.state = {
+      categories : [],
       items : [],
     }
     this.handleProductInputChange = this.handleProductInputChange.bind(this)
     this.handleButton = this.handleButton.bind(this)
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+  }
+
+  getCategories() {
+    axios.get('http://127.0.0.1:8000/api/categories')
+      .then(response => response.data)
+      .then(data =>
+        this.setState({
+          categories : data['hydra:member']
+        }))
   }
 
   getItems() {
@@ -30,6 +40,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.getCategories();
     this.getItems();
   }
 
@@ -78,9 +89,6 @@ class App extends Component {
 
   render() {
   
-    const{items} = this.state
-    const{typingItem} = this.state
-
     return (
       <div className="App">
         <div>
@@ -91,25 +99,15 @@ class App extends Component {
             color="secondary"
           />
           <InputItem
-            typingItem={this.typingItem}
+            typingItem={this.state.typingItem}
             handleProductInputChange={this.handleProductInputChange}
             handleButton={this.handleButton}
+          /> 
+          <ItemList 
+            items={this.state.items}
           />
         </div>
-        <ul>
-          {
-            items.map((item, i) => 
-              <li key={i}>
-                <Item 
-                  id={item.id}
-                  isChecked={item.isChecked}
-                  title={item.title}
-                  handleCheckboxChange={this.handleCheckboxChange}
-                />
-              </li>
-            )
-            }
-        </ul>
+       
       </div>
     );
   }
