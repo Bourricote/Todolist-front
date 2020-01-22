@@ -13,10 +13,8 @@ class App extends Component {
     this.state = {
       categories : [],
       items : [],
-    }
-    this.handleProductInputChange = this.handleProductInputChange.bind(this)
-    this.handleButton = this.handleButton.bind(this)
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+    }  
+    this.getItems=this.getItems.bind(this);
   }
 
   getCategories() {
@@ -42,40 +40,6 @@ class App extends Component {
   componentDidMount() {
     this.getCategories();
     this.getItems();
-  }
-
-  handleProductInputChange(event) {
-    this.setState({
-      typingItem : event.target.value,
-    })
-  }
-
-  handleButton(){
-    axios.post('http://127.0.0.1:8000/api/items', {
-      'title' : this.state.typingItem,
-      'isChecked' : false,
-      'category' : 'api/categories/3'
-    })
-      .then(response => {
-        this.getItems()
-        this.setState({
-          typingItem : null
-        })
-      })
-      .catch(function (error) {
-        console.log('error');
-      })
-  }
-
-  handleCheckboxChange(event) {
-    axios.put('http://127.0.0.1:8000/api/items/' + event.target.value, {
-      'title' : event.target.getAttribute('data-title'),
-      'isChecked' : event.target.checked,
-      'category': 'api/categories/3',
-    })
-      .then(response => {
-        this.getItems()
-      })
   }
 
   getCheckedRate() {
@@ -105,6 +69,7 @@ class App extends Component {
           /> 
           <ItemList 
             items={this.state.items}
+            getItems={this.getItems}
           />
         </div>
        
