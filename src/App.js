@@ -4,7 +4,7 @@ import './App.css';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import InputItem from './components/InputItem';
-import ItemList from './components/ItemList';
+import CategoryList from './components/CategoryList';
 
 class App extends Component {
   
@@ -14,32 +14,6 @@ class App extends Component {
       categories : [],
       items : [],
     }  
-    this.getItems=this.getItems.bind(this);
-  }
-
-  getCategories() {
-    axios.get('http://127.0.0.1:8000/api/categories')
-      .then(response => response.data)
-      .then(data =>
-        this.setState({
-          categories : data['hydra:member']
-        }))
-  }
-
-  getItems() {
-    axios.get('http://127.0.0.1:8000/api/items?order[isChecked]')
-      .then(response => response.data)
-      .then(data => 
-          this.setState({
-            items : data['hydra:member'],
-            typingItem : null,
-          })
-        )
-  }
-
-  componentDidMount() {
-    this.getCategories();
-    this.getItems();
   }
 
   getCheckedRate() {
@@ -67,10 +41,7 @@ class App extends Component {
             handleProductInputChange={this.handleProductInputChange}
             handleButton={this.handleButton}
           /> 
-          <ItemList 
-            items={this.state.items}
-            getItems={this.getItems}
-          />
+          <CategoryList />
         </div>
        
       </div>
