@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import './App.css';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Item from './components/Item';
+import { useRadioGroup } from '@material-ui/core';
 
 class App extends Component {
   
@@ -111,20 +113,12 @@ class App extends Component {
           {
             items.map((item, i) => 
               <li key={i}>
-                <input 
-                  type="checkbox"
-                  id={'check-' +i}
-                  onChange={this.handleCheckboxChange}
-                  data-title={item.title}
-                  value={item.id}
-                  checked={item.isChecked}
+                <Item 
+                id={item.id}
+                isChecked={item.isChecked}
+                title={item.title}
+                handleCheckboxChange={this.handleCheckboxChange}
                 />
-                <label 
-                  htmlFor={'check-' +i}
-                  className={item.isChecked ? 'crossed' : ''}
-                >
-                  {item.title}
-                </label>
               </li>
             )
             }
