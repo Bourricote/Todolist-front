@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import './App.css';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import InputItem from './components/InputItem';
 import CategoryList from './components/CategoryList';
+import ItemForm from './components/ItemForm';
 
 class App extends Component {
   
@@ -13,7 +12,9 @@ class App extends Component {
     this.state = {
       categories : [],
       items : [],
+      typingItem : null,
     }  
+    this.getCategories = this.getCategories.bind(this);
   }
 
   getCheckedRate() {
@@ -25,25 +26,42 @@ class App extends Component {
     return (numberOfChecked/items.length) *100
   }
 
+  getCategories() {
+    axios.get('http://127.0.0.1:8000/api/categories')
+      .then(response => response.data)
+      .then(data =>
+        this.setState({
+          categories: data['hydra:member']
+        }))
+  }
+
+  componentDidMount() {
+    this.getCategories();
+  }
+
   render() {
   
     return (
       <div className="App">
         <div>
+
           <LinearProgress
             className='progressBar'
             variant="determinate"
             value={this.getCheckedRate()}
             color="secondary"
           />
-          <InputItem
+
+          <ItemForm 
+            categories={this.state.categories}
             typingItem={this.state.typingItem}
-            handleProductInputChange={this.handleProductInputChange}
-            handleButton={this.handleButton}
-          /> 
-          <CategoryList />
+          />
+        
+          <CategoryList 
+            categories={this.state.categories}
+          />
+
         </div>
-       
       </div>
     );
   }
