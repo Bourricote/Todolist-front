@@ -11,20 +11,18 @@ class App extends Component {
     super(props)
     this.state = {
       categories : [],
-      items : [],
-      typingItem : null,
     }  
     this.getCategories = this.getCategories.bind(this);
   }
 
-  getCheckedRate() {
+  /* getCheckedRate() {
     let items = this.state.items;
     let numberOfChecked = 0;
     for (let i = 0; i < items.length; i++) {
       if ( items[i].isChecked) numberOfChecked ++;
     }
     return (numberOfChecked/items.length) *100
-  }
+  } */
 
   getCategories() {
     axios.get('http://127.0.0.1:8000/api/categories')
@@ -48,17 +46,19 @@ class App extends Component {
           <LinearProgress
             className='progressBar'
             variant="determinate"
-            value={this.getCheckedRate()}
+            // value={this.getCheckedRate()}
             color="secondary"
           />
 
           <ItemForm 
             categories={this.state.categories}
             typingItem={this.state.typingItem}
+            getItems={this.getItems}
           />
         
           <CategoryList 
             categories={this.state.categories}
+            getItems={this.getItems}
           />
 
         </div>

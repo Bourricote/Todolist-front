@@ -7,8 +7,13 @@ import Button from './Button';
 class ItemForm extends React.Component {
     constructor(props) {
         super(props);
-        this.handleButton = this.handleButton.bind(this)
+        this.state = {
+            typingItem: null,
+            selectedCategory: null,
+        }  
         this.handleProductInputChange = this.handleProductInputChange.bind(this)
+        this.handleSelectChange = this.handleSelectChange.bind(this)
+        this.handleButton = this.handleButton.bind(this)
     }
 
     handleProductInputChange(event) {
@@ -17,16 +22,24 @@ class ItemForm extends React.Component {
         })
     }
 
+    handleSelectChange(event) {
+        console.log(event.target.value)
+        this.setState({
+            selectedCategory: event.target.value,
+        })
+    }
+
     handleButton() {
         axios.post('http://127.0.0.1:8000/api/items', {
             'title': this.state.typingItem,
             'isChecked': false,
-            'category': 'api/categories/3'
+            'category': 'api/categories/' + this.state.selectedCategory
         })
             .then(response => {
-                this.getItems()
+                this.props.getItems(this.state.selectedCategory)
                 this.setState({
-                    typingItem: null
+                    typingItem: null,
+                    selectedCategory: null
                 })
             })
             .catch(function (error) {
@@ -43,11 +56,13 @@ class ItemForm extends React.Component {
                 />
 
                 <SelectCategory
+                    handleSelectChange={this.handleSelectChange}
                     categories={this.props.categories}
                 />
 
                 <Button 
                     handleButton={this.handleButton}
+                    selectedCategory={this.props.selectedCategory}
                 />
             </div>
         )}

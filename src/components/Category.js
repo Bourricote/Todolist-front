@@ -10,6 +10,7 @@ class Category extends React.Component {
                 {this.props.category.name}
                 <ItemList
                     categoryId={this.props.category.id}
+                    getItems={this.props.getItems}
                 />
 
             </div>

@@ -11,6 +11,7 @@ class CategoryList extends React.Component {
                         <li key={i}>
                             <Category
                                 category={category}
+                                getItems={this.props.getItems}
                             />
 
                         </li>

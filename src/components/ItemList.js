@@ -8,9 +8,9 @@ class ItemList extends React.Component {
         super(props);
         this.state = {
             items: [],
-        }
-        this.getItems = this.getItems.bind(this);
+        } 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+        this.getItems = this.getItems.bind(this)
     }
 
     handleCheckboxChange(event) {

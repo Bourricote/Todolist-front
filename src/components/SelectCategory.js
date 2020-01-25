@@ -4,7 +4,8 @@ class SelectCategory extends React.Component {
 
     render() {
         return(
-            <select>
+            <select
+                onChange={this.props.handleSelectChange}>
                 {this.props.categories.map(
                     (category, i) =>
                         <option key={i}
