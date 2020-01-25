@@ -9,7 +9,7 @@ class ItemForm extends React.Component {
         super(props);
         this.state = {
             typingItem: null,
-            selectedCategory: null,
+            selectedCategory: 1,
         }  
         this.handleProductInputChange = this.handleProductInputChange.bind(this)
         this.handleSelectChange = this.handleSelectChange.bind(this)
@@ -58,6 +58,7 @@ class ItemForm extends React.Component {
                 <SelectCategory
                     handleSelectChange={this.handleSelectChange}
                     categories={this.props.categories}
+                    selectedCategory={this.props.selectedCategory}
                 />
 
                 <Button 
