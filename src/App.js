@@ -11,18 +11,20 @@ class App extends Component {
     super(props)
     this.state = {
       categories : [],
+      allItems: [],
     }  
     this.getCategories = this.getCategories.bind(this);
+    this.getAllItems = this.getAllItems.bind(this);
   }
 
-  /* getCheckedRate() {
-    let items = this.state.items;
+  getCheckedRate() {
+    let allItems = this.state.allItems;
     let numberOfChecked = 0;
-    for (let i = 0; i < items.length; i++) {
-      if ( items[i].isChecked) numberOfChecked ++;
+    for (let i = 0; i < allItems.length; i++) {
+      if (allItems[i].isChecked) numberOfChecked ++;
     }
-    return (numberOfChecked/items.length) *100
-  } */
+    return (numberOfChecked / allItems.length) *100
+  }
 
   getCategories() {
     axios.get('http://127.0.0.1:8000/api/categories')
@@ -33,8 +35,23 @@ class App extends Component {
         }))
   }
 
+  getAllItems() {
+    axios.get('http://127.0.0.1:8000/api/items?order[isChecked]')
+      .then(response => response.data)
+      .then(data =>
+        this.setState({
+          allItems: data['hydra:member'],
+        })
+      )
+  }
+
   componentDidMount() {
     this.getCategories();
+    this.getAllItems();
+  }
+
+  componentDidUpdate() {
+    this.getAllItems();
   }
 
   render() {
@@ -46,7 +63,7 @@ class App extends Component {
           <LinearProgress
             className='progressBar'
             variant="determinate"
-            // value={this.getCheckedRate()}
+            value={this.getCheckedRate()}
             color="secondary"
           />
 
