@@ -8,6 +8,7 @@ class ItemList extends React.Component {
         super(props);
         this.state = {
             items: [],
+            reload: this.props.reload
         } 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
         this.getItems = this.getItems.bind(this)
@@ -36,7 +37,13 @@ class ItemList extends React.Component {
     }
 
     componentDidMount() {
-        this.getItems(this.props.categoryId);
+        this.getItems(this.props.categoryId)
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.reload !== this.props.reload) {
+            this.getItems(this.props.categoryId)
+        }
     }
 
     render() {

@@ -11,10 +11,13 @@ class App extends Component {
     super(props)
     this.state = {
       categories : [],
-      allItems: [],
+      allItems : [],
+      reload:0
     }  
     this.getCategories = this.getCategories.bind(this);
     this.getAllItems = this.getAllItems.bind(this);
+    this.changeReload = this.changeReload.bind(this);
+    this.getCheckedRate = this.getCheckedRate.bind(this);
   }
 
   getCheckedRate() {
@@ -36,13 +39,16 @@ class App extends Component {
   }
 
   getAllItems() {
-    axios.get('http://127.0.0.1:8000/api/items?order[isChecked]')
+    axios.get('http://127.0.0.1:8000/api/items')
       .then(response => response.data)
       .then(data =>
         this.setState({
-          allItems: data['hydra:member'],
-        })
-      )
+          allItems: data['hydra:member']
+        }))
+  }
+
+  changeReload() {
+    this.setState({reload:this.state.reload +1})
   }
 
   componentDidMount() {
@@ -71,11 +77,13 @@ class App extends Component {
             categories={this.state.categories}
             typingItem={this.state.typingItem}
             getItems={this.getItems}
+            changeReload={this.changeReload}
           />
         
           <CategoryList 
             categories={this.state.categories}
             getItems={this.getItems}
+            reload={this.state.reload}
           />
 
         </div>

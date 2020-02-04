@@ -10,6 +10,7 @@ class CategoryList extends React.Component {
                     (category, i) =>
                         <li key={i}>
                             <Category
+                                reload={this.props.reload}
                                 category={category}
                                 getItems={this.props.getItems}
                             />

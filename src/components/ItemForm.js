@@ -45,6 +45,7 @@ class ItemForm extends React.Component {
             .catch(function (error) {
                 console.log('error');
             })
+            .finally(this.props.changeReload)
     }
 
     render() {

@@ -9,6 +9,7 @@ class Category extends React.Component {
             <div className="category">
                 {this.props.category.name}
                 <ItemList
+                    reload={this.props.reload}
                     categoryId={this.props.category.id}
                     getItems={this.props.getItems}
                 />
